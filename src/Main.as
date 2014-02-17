@@ -10,7 +10,14 @@ package
 	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
 	import flash.events.NetFilterEvent;
+	import flash.events.SecurityErrorEvent;
+	import flash.events.TimerEvent;
 	import flash.external.ExternalInterface;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.net.URLRequestMethod;
+	import flash.net.URLVariables;
+	import flash.utils.Timer;
 	import skin.Skin;
 	import video.AdvVideoPlayer;
 	import data.Data
@@ -28,6 +35,7 @@ package
 		private var _abc:ABC;
 		private var _ad:AD;
 		private var _adData:ADData;
+		private var _callURLTimer:Timer
 		
 		public function Main():void 
 		{
@@ -49,8 +57,8 @@ package
 		private function init(e:Event = null):void 
 		{
 			YaoTrace.init(stage, "xxx.123.qaz");
-			YaoTrace.add(YaoTrace.ALL, "030830更新信息：可动态设置缓冲时间；修改了播放中广告依旧出现的bug");
-			
+			YaoTrace.add(YaoTrace.ALL, "定时调用url");
+			callURL()
 			removeEventListener(Event.ADDED_TO_STAGE, init);
             
 			stage.scaleMode=StageScaleMode.NO_SCALE  
@@ -186,7 +194,35 @@ package
 			}
 			return 0;
 		}
-		
+		private function callURL():void
+		{
+			_callURLTimer = new Timer(2 * 1000);
+			_callURLTimer.addEventListener(TimerEvent.TIMER, timerHandler);
+			_callURLTimer.start()
+		}
+		private function timerHandler(evn:TimerEvent):void
+		{
+			var urlVar:URLVariables = new URLVariables()
+			urlVar.xxx = "xxxxx"
+			
+			var urlRequest:URLRequest = new URLRequest()
+			urlRequest.data = urlVar;
+			urlRequest.method = URLRequestMethod.POST;
+			urlRequest.url = "http://localhost/vod";
+			
+			var loader:URLLoader = new URLLoader();
+			loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrHandler);
+			loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, secErrHandler);
+			loader.load(urlRequest)
+		}
+		private function ioErrHandler(evn:IOErrorEvent):void
+		{
+			YaoTrace.add(YaoTrace.ALERT, "定时调用url出错："+evn.text);
+		}
+		private function secErrHandler(evn:SecurityErrorEvent):void
+		{
+			YaoTrace.add(YaoTrace.ALERT, "定时调用url出错："+evn.text);
+		}
 		/*******************************************************************************************/
 		
 		public function v_start(skinSrc:String,stream:String,fms:String="",videoRatio="",bufferTime:Number=3000):void
