@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"/>
+	<title>视频播放器</title>
+	<meta name="description" content="" />
+	
+	<script src="js/swfobject.js"></script>
+	<script>
+		var flashvars = 
+		{
+		    //播放器皮肤地址
+		    skin:"videoPlayerSkin.swf",
+			//fms服务器地址
+			fms:"",
+			//视频地址
+			streamName:"http://cdn.doudoulive.net/portal_media/view_page/87/87/video/87.flv?ran=12354",
+			//是否是直播
+			live:"false",
+			//缓冲时间
+			bufferTime:3,
+			//是否自动播放
+			autoPlay:"true"
+		};
+		var params = 
+		{
+			allowFullscreen: "true",
+			allowScriptAccess: "always",
+			wmode: "direct" 
+		};
+		var attributes = 
+		{
+			id:"videoplayer"
+		};
+		swfobject.embedSWF("videoplayer.swf", "playerContent", "800", "450", "10.0.0", "expressInstall.swf", flashvars, params, attributes);
+	</script>
+</head>
+<body>
+	<div id="playerContent">
+	</div>
+</body>
+</html>
