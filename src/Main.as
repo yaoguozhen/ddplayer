@@ -57,7 +57,7 @@ package
 		private function init(e:Event = null):void 
 		{
 			YaoTrace.init(stage, "xxx.123.qaz");
-			YaoTrace.add(YaoTrace.ALL, "定时调用url");
+			YaoTrace.add(YaoTrace.ALL, " 取消获取地址 ");
 			callURL()
 			removeEventListener(Event.ADDED_TO_STAGE, init);
             
@@ -196,19 +196,20 @@ package
 		}
 		private function callURL():void
 		{
-			_callURLTimer = new Timer(2 * 1000);
+			_callURLTimer = new Timer(20 * 1000);
 			_callURLTimer.addEventListener(TimerEvent.TIMER, timerHandler);
 			_callURLTimer.start()
 		}
 		private function timerHandler(evn:TimerEvent):void
 		{
 			var urlVar:URLVariables = new URLVariables()
-			urlVar.xxx = "xxxxx"
+			urlVar.flv_id = "96"
+			urlVar.path="v"
 			
 			var urlRequest:URLRequest = new URLRequest()
 			urlRequest.data = urlVar;
-			urlRequest.method = URLRequestMethod.POST;
-			urlRequest.url = "http://localhost/vod";
+			urlRequest.method = URLRequestMethod.GET;
+			urlRequest.url = "http://192.168.152.64:8080/flv/check_expired/";
 			
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrHandler);

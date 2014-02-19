@@ -40,8 +40,8 @@ package data
 		public static function getData(obj:Stage):void
 		{
 			Data.skin = obj.loaderInfo.parameters.skin;
-			Data.stream = obj.loaderInfo.parameters.streamName;
-			var f = obj.loaderInfo.parameters.fms;
+			Data.stream = "02e4aa5c";
+			var f = "rtmp://weblukerlivedown.ccgslb.com.cn/3a0c51bce5b5d151";
 			var r = obj.loaderInfo.parameters.ratio;
 			var l = obj.loaderInfo.parameters.live;
 			var a = obj.loaderInfo.parameters.autoPlay;
